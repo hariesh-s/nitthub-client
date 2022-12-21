@@ -1,6 +1,6 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Input, InputAdornment, Stack, TextField } from "@mui/material";
+import { InputAdornment, Stack, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
 
 function Navbar() {
