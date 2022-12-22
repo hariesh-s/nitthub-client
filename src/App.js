@@ -1,11 +1,12 @@
 import Navbar from "./components/Navbar"
 import BookCard from "./components/BookCard";
 import BookGrid from "./components/BookGrid";
+import Signup from "./pages/Signup";
 
 function App() {
    return (
       <div className="App">
-         <BookGrid />
+         <Signup />
       </div>
    );
 }
