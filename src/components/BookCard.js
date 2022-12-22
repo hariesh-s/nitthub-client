@@ -11,20 +11,19 @@ import {
    CardActions,
    CardContent,
    CardHeader,
-   CardMedia,
    List,
    ListItem,
    ListItemText,
    IconButton,
 } from "@mui/material";
 
-function BookCard() {
+function BookCard({ initials, authorName, date, resourceName, course, prof }) {
    return (
       <Card sx={{ width: 280 }}>
          <CardHeader
-            avatar={<Avatar>Rg</Avatar>}
-            title={"Posted by " + "name"}
-            subheader={"date"}
+            avatar={<Avatar>{initials}</Avatar>}
+            title={"Posted by " + authorName}
+            subheader={date}
             sx={{
                paddingBottom: "6px",
             }}
@@ -42,24 +41,18 @@ function BookCard() {
                <ListItem>
                   <ListItemText
                      primary="Resource Name"
-                     secondary="Hennesey Patterson"
+                     secondary={resourceName}
                   />
                </ListItem>
                <ListItem>
-                  <ListItemText
-                     primary="Course"
-                     secondary="Computer Architecture"
-                  />
+                  <ListItemText primary="Course" secondary={course} />
                </ListItem>
                <ListItem>
-                  <ListItemText
-                     primary="Professor"
-                     secondary="Ramasubramanium"
-                  />
+                  <ListItemText primary="Professor" secondary={prof} />
                </ListItem>
             </List>
          </CardContent>
-         <CardActions sx={{ justifyContent: "space-between" }}>
+         <CardActions sx={{ justifyContent: "space-evenly" }}>
             <IconButton size="small">
                <FontAwesomeIcon icon={faHeart} />
             </IconButton>
