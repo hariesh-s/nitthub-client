@@ -1,19 +1,102 @@
+import { useState } from "react";
 import { Box, Grid, TextField, Button, Typography } from "@mui/material";
-// import { makeStyles } from "@mui/styles";
-// import { createTheme } from '@mui/material/styles';
-// const theme = createTheme();
-// const useStyles = makeStyles({
-//    root : {
-//      background: theme.palette.primary.main,
-//    },
-//    ip: {
-//       fontFamily: "Raleway",
-//       fontSize: 32,
-//    }
-// });
 
 const Signup = () => {
-   // const styles = useStyles();
+   const [username, setUsername] = useState("");
+   const [password, setPassword] = useState("");
+   const [confirmation, setConfirmation] = useState("");
+
+   const [usernameHelperText, setUsernameHelperText] = useState("");
+   const [passwordHelperText, setPasswordHelperText] = useState("");
+   const [confirmationHelperText, setConfirmationHelperText] = useState("");
+
+   const [usernameErr, setUsernameErr] = useState(false);
+   const [passwordErr, setPasswordErr] = useState(false);
+   const [confirmationErr, setConfirmationErr] = useState(false);
+
+   function handleUsernameChange(e) {
+      setUsername(e.target.value);
+
+      if (!e.target.value) {
+         setUsernameErr(true);
+         setUsernameHelperText("Username cannot be empty!");
+      } else {
+         setUsernameErr(false);
+         setUsernameHelperText("");
+      }
+   }
+
+   function handlePasswordChange(e) {
+      setPassword(e.target.value);
+
+      if (!e.target.value) {
+         setPasswordErr(true);
+         setPasswordHelperText("Password cannot be empty!");
+      } else {
+         setPasswordErr(false);
+         setPasswordHelperText("");
+
+         if (confirmation && e.target.value !== confirmation) {
+            setConfirmationErr(true);
+            setConfirmationHelperText(
+               "Confirm password must match password field!"
+            );
+         } else {
+            setConfirmationErr(false);
+            setConfirmationHelperText("");
+         }
+      }
+   }
+
+   function handleConfirmationChange(e) {
+      setConfirmation(e.target.value);
+
+      if (!e.target.value) {
+         setConfirmationErr(true);
+         setConfirmationHelperText("Confirm password cannot be empty!");
+      } else {
+         if (e.target.value !== password) {
+            setConfirmationErr(true);
+            setConfirmationHelperText(
+               "Confirm password must match password field!"
+            );
+         } else {
+            setConfirmationErr(false);
+            setConfirmationHelperText("");
+         }
+      }
+   }
+
+   function handleRegistration(e) {
+      e.preventDefault()
+
+      if(!username){
+         setUsernameErr(true);
+         setUsernameHelperText("Username cannot be empty!");
+      }
+      else if(!password){
+         setPasswordErr(true);
+         setPasswordHelperText("Password cannot be empty!");
+      }
+      else if(!confirmation){
+         setConfirmationErr(true);
+         setConfirmationHelperText("Confirm password cannot be empty!")
+      }
+      else {
+         fetch("api/register", {
+            method: "POST",
+            headers: {
+               "Content-Type": "Application/json"
+            },
+            body: JSON.stringify({
+               username,
+               password
+            })
+         })
+         .then(res => res.json)
+         .then(data => console.log(data))
+      }
+   }
 
    return (
       <Box
@@ -33,6 +116,7 @@ const Signup = () => {
             p={4}
             border="1px solid"
             borderRadius={10}
+            onSubmit={handleRegistration}
          >
             <Typography
                component="h1"
@@ -43,51 +127,78 @@ const Signup = () => {
                Signup
             </Typography>
             <Grid item>
-               <TextField label="Username" fullWidth
+               <TextField
+                  id="username"
+                  name="username"
+                  label="Username"
+                  autoComplete="off"
+                  autoFocus
+                  fullWidth
                   InputProps={{
                      style: {
                         fontFamily: "Raleway",
                         fontSize: 18,
-                     }
+                     },
                   }}
                   InputLabelProps={{
                      style: {
                         fontFamily: "Raleway",
                         fontSize: 18,
-                     }
+                     },
                   }}
+                  onChange={handleUsernameChange}
+                  helperText={usernameHelperText}
+                  error={usernameErr}
                ></TextField>
             </Grid>
             <Grid item>
-               <TextField label="Password" fullWidth
+               <TextField
+                  id="password"
+                  name="password"
+                  type="password"
+                  label="Password"
+                  autoComplete="off"
+                  fullWidth
                   InputProps={{
                      style: {
                         fontFamily: "Raleway",
                         fontSize: 18,
-                     }
+                     },
                   }}
                   InputLabelProps={{
                      style: {
                         fontFamily: "Raleway",
                         fontSize: 18,
-                     }
+                     },
                   }}
+                  onChange={handlePasswordChange}
+                  helperText={passwordHelperText}
+                  error={passwordErr}
                ></TextField>
             </Grid>
             <Grid item>
-               <TextField label="Confirm password" fullWidth
+               <TextField
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  label="Confirm password"
+                  autoComplete="off"
+                  fullWidth
                   InputProps={{
                      style: {
                         fontFamily: "Raleway",
                         fontSize: 18,
-                     }
+                     },
                   }}
                   InputLabelProps={{
                      style: {
                         fontFamily: "Raleway",
                         fontSize: 18,
-                     }
+                     },
                   }}
+                  onChange={handleConfirmationChange}
+                  helperText={confirmationHelperText}
+                  error={confirmationErr}
                ></TextField>
             </Grid>
             <Grid item alignSelf="center">
@@ -100,6 +211,8 @@ const Signup = () => {
                      fontFamily: "Raleway",
                      fontSize: 16,
                   }}
+                  disabled={usernameErr || passwordErr || confirmationErr}
+                  type="submit"
                >
                   Signup
                </Button>

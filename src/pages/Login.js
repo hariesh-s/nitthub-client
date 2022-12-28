@@ -1,5 +1,5 @@
-import { Box, Grid, TextField, Button, Typography } from "@mui/material";
 import { useState } from "react";
+import { Box, Grid, TextField, Button, Typography } from "@mui/material";
 
 const Login = () => {
    const [username, setUsername] = useState("");
@@ -55,7 +55,7 @@ const Login = () => {
                password
             })
          })
-         .then(res => res.json())
+         .then(res => res.json)
          .then(data => console.log(data))
       }
 
