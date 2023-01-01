@@ -1,7 +1,7 @@
 import React, { StrictMode } from "react";
 import { render } from "react-dom";
 import "./index.css";
-import App from "./App";
+import Main from "./pages/Root";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -11,7 +11,7 @@ render(
    <StrictMode>
       <BrowserRouter>
          <Routes>
-            <Route path="/" element={<App />}></Route>
+            <Route path="/" element={<Main />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
          </Routes>
