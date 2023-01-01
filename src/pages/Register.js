@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box, Grid, TextField, Button, Typography } from "@mui/material";
 
-const Signup = () => {
+function Register() {
    const [username, setUsername] = useState("");
    const [password, setPassword] = useState("");
    const [confirmation, setConfirmation] = useState("");
@@ -124,7 +124,7 @@ const Signup = () => {
                fontFamily="Raleway, sans-serif"
                fontSize={32}
             >
-               Signup
+               Sign up
             </Typography>
             <Grid item>
                <TextField
@@ -214,7 +214,7 @@ const Signup = () => {
                   disabled={usernameErr || passwordErr || confirmationErr}
                   type="submit"
                >
-                  Signup
+                  Join
                </Button>
             </Grid>
          </Grid>
@@ -222,4 +222,4 @@ const Signup = () => {
    );
 };
 
-export default Signup;
+export default Register;

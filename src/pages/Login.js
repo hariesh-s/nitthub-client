@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box, Grid, TextField, Button, Typography } from "@mui/material";
 
-const Login = () => {
+function Login() {
    const [username, setUsername] = useState("");
    const [password, setPassword] = useState("");
    const [usernameHelperText, setUsernameHelperText] = useState("");
@@ -87,7 +87,7 @@ const Login = () => {
                fontFamily="Raleway, sans-serif"
                fontSize={32}
             >
-               Login
+               Sign in
             </Typography>
             <Grid item>
                <TextField
