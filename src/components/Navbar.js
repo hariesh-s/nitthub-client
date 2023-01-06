@@ -1,8 +1,5 @@
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { InputAdornment, Stack, TextField } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 
 function Navbar() {
    return (
@@ -11,7 +8,6 @@ function Navbar() {
          alignItems="center"
          justifyContent="space-between"
          height={96}
-         // bgcolor="#293241"
          bgcolor="#00171f"
       >
          <Link
@@ -27,54 +23,41 @@ function Navbar() {
          >
             nitthub
          </Link>
-         <TextField
-            id="searchText"
-            variant="outlined"
-            placeholder="I'm looking for ..."
-            InputProps={{
-               startAdornment: (
-                  <InputAdornment position="start">
-                     <FontAwesomeIcon icon={faSearch} />
-                  </InputAdornment>
-               ),
-            }}
-            sx={{
-               input: {
-                  color: "#000",
-                  padding: 1,
-                  fontFamily: "Poppins",
-                  fontSize: 16,
-               },
-               "& .MuiOutlinedInput-root": {
-                  background: "#fff",
-               },
-               display: "flex",
-               width: "40%",
-            }}
-            component={motion.div}
-            animate={{
-               y: "50vh",
-               scale: 2,
-            }} 
-         ></TextField>
          <Stack
             direction="row"
             ml={4.5}
             mr={4.5}
             gap={3.5}
             sx={{
-               fontFamily: "Poppins",
+               fontFamily: "Raleway",
                fontSize: 16,
             }}
          >
             <Link to="/login" style={{ textDecoration: "none", color: "#fff" }}>
-               LOGIN
+               <Box
+                  sx={{
+                     "&:hover": {
+                        color: "#ee6c4d",
+                     },
+                  }}
+               >
+                  LOGIN
+               </Box>
             </Link>
+
             <Link
                to="/register"
                style={{ textDecoration: "none", color: "#fff" }}
             >
-               REGISTER
+               <Box
+                  sx={{
+                     "&:hover": {
+                        color: "#ee6c4d",
+                     },
+                  }}
+               >
+                  REGISTER
+               </Box>
             </Link>
          </Stack>
       </Stack>
