@@ -2,6 +2,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { InputAdornment, Stack, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function Navbar() {
    return (
@@ -40,7 +41,7 @@ function Navbar() {
             sx={{
                input: {
                   color: "#000",
-                  padding: 1.5,
+                  padding: 1,
                   fontFamily: "Poppins",
                   fontSize: 16,
                },
@@ -48,8 +49,13 @@ function Navbar() {
                   background: "#fff",
                },
                display: "flex",
-               width: "55%",
+               width: "40%",
             }}
+            component={motion.div}
+            animate={{
+               y: "50vh",
+               scale: 2,
+            }} 
          ></TextField>
          <Stack
             direction="row"
