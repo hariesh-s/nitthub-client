@@ -11,7 +11,7 @@ function BookGrid({ supplies }) {
          px={{ xs: 2, sm: 4 }}
          py={4}
       >
-         {supplies.map((supply) => (
+         {supplies?.map((supply) => (
             <Grid
                item
                xs={12}
@@ -24,10 +24,10 @@ function BookGrid({ supplies }) {
                }}
             >
                <BookCard
-                  authorName={supply.owner}
-                  resourceName={supply.name}
-                  course={supply.course}
-                  prof={supply.prof}
+                  authorName={supply?.owner}
+                  resourceName={supply?.name}
+                  course={supply?.course}
+                  prof={supply?.prof}
                />
             </Grid>
          ))}

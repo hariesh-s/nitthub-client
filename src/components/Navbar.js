@@ -9,17 +9,19 @@ function Navbar() {
          direction="row"
          alignItems="center"
          justifyContent="space-between"
-         height={64}
-         bgcolor="#0F1626"
+         height={96}
+         // bgcolor="#293241"
+         bgcolor="#00171f"
       >
          <Link
             to="/"
             style={{
                textDecoration: "none",
-               marginLeft: 24,
-               fontSize: 26,
-               fontFamily: "Unbounded",
-               color: "#D98310",
+               marginLeft: 36,
+               marginRight: 36,
+               fontSize: 36,
+               fontFamily: "Pacifico, cursive",
+               color: "#ee6c4d",
             }}
          >
             nitthub
@@ -44,28 +46,29 @@ function Navbar() {
                },
                "& .MuiOutlinedInput-root": {
                   background: "#fff",
-                  minWidth: 700,
                },
+               display: "flex",
+               width: "55%",
             }}
          ></TextField>
          <Stack
             direction="row"
-            mr={3}
-            gap={2}
+            ml={4.5}
+            mr={4.5}
+            gap={3.5}
             sx={{
                fontFamily: "Poppins",
                fontSize: 16,
-               fontWeight: 500,
             }}
          >
             <Link to="/login" style={{ textDecoration: "none", color: "#fff" }}>
-               Login
+               LOGIN
             </Link>
             <Link
                to="/register"
                style={{ textDecoration: "none", color: "#fff" }}
             >
-               Register
+               REGISTER
             </Link>
          </Stack>
       </Stack>
