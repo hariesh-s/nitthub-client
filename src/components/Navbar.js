@@ -73,7 +73,7 @@ function Navbar() {
          >
             nitthub
          </Link>
-         {pathname === "/search-library" && (
+         {pathname !== "/" && (
             <TextField
                variant="outlined"
                id="navSearchQuery"
