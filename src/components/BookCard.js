@@ -15,17 +15,25 @@ import {
    ListItem,
    ListItemText,
    IconButton,
+   Button,
 } from "@mui/material";
 
 function BookCard({ initials, authorName, date, resourceName, course, prof }) {
    return (
-      <Card sx={{ width: 280 }}>
+      <Card sx={{ width: 280, borderRadius: "12px", paddingX: "8px" }}>
          <CardHeader
             avatar={<Avatar>{initials}</Avatar>}
-            title={"Posted by " + authorName}
+            title={[
+               "Posted by ",
+               <span style={{ color: "#ee6c4d" }}>{authorName}</span>,
+            ]}
             subheader={date}
             sx={{
-               paddingBottom: "6px",
+               "& .MuiCardHeader-title": {
+                  fontFamily: "Pacifico",
+                  fontSize: "16px",
+                  color: "#00171f",
+               },
             }}
          ></CardHeader>
          <CardContent
@@ -34,6 +42,18 @@ function BookCard({ initials, authorName, date, resourceName, course, prof }) {
                ul: {
                   paddingTop: 0,
                   paddingBottom: 0,
+               },
+               "& .MuiListItemText-primary": {
+                  fontFamily: "Raleway",
+                  fontSize: "16px",
+                  fontWeight: 700,
+                  color: "#00171f",
+               },
+               "& .MuiListItemText-secondary": {
+                  fontFamily: "Raleway",
+                  fontSize: "14px",
+                  fontWeight: 700,
+                  color: "#ee6c4d",
                },
             }}
          >
@@ -52,16 +72,30 @@ function BookCard({ initials, authorName, date, resourceName, course, prof }) {
                </ListItem>
             </List>
          </CardContent>
-         <CardActions sx={{ justifyContent: "space-evenly" }}>
-            <IconButton size="small">
-               <FontAwesomeIcon icon={faHeart} />
-            </IconButton>
-            <IconButton size="small">
-               <FontAwesomeIcon icon={faShare} />
-            </IconButton>
-            <IconButton size="small">
-               <FontAwesomeIcon icon={faDownload} />
-            </IconButton>
+         <CardActions sx={{ justifyContent: "center" }}>
+            <Button
+               disableElevation
+               size="large"
+               startIcon={
+                  <FontAwesomeIcon icon={faDownload} transform="shrink-5" />
+               }
+               sx={{
+                  textTransform: "none",
+                  background: "transparent",
+                  color: "#ee6c4d",
+                  border: "1px solid #ee6c4d",
+                  fontFamily: "Pacifico",
+                  fontSize: "14px",
+                  marginBottom: "12px",
+                  "&:hover": {
+                     background: "#ee6c4d",
+                     color: "#fff",
+                     border: "none",
+                  },
+               }}
+            >
+               Download
+            </Button>
          </CardActions>
       </Card>
    );

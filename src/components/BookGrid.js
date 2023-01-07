@@ -2,7 +2,20 @@ import { Grid } from "@mui/material";
 import BookCard from "./BookCard";
 
 function BookGrid({ supplies }) {
-   const arr = [1, 2, 3, 4, 5, 6, 7]
+   const arr = [
+      {
+         owner: "hariesh",
+         name: "name11",
+         course: "course1",
+         prof: "prof1",
+      },
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+   ];
    return (
       <Grid
          container
