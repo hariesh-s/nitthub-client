@@ -1,20 +1,18 @@
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { motion } from "framer-motion";
+import Typewriter from "typewriter-effect";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
    Box,
    Button,
    Modal,
    Typography,
-   FormControl,
-   InputLabel,
-   Select,
    MenuItem,
    TextField,
+   InputAdornment
 } from "@mui/material";
-import Typewriter from "typewriter-effect";
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { InputAdornment, Stack } from "@mui/material";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles({
@@ -54,8 +52,18 @@ function RootFiller() {
    const [query, setQuery] = useState("");
    const [course, setCourse] = useState("");
    const [prof, setProf] = useState("");
+   const [, setSearchParams] = useSearchParams();
    const classes = useStyles();
-   
+
+   useEffect(() => {
+      function search(e) {
+         // if user hit enter
+         if (e.keyCode === 13) sendRequest();
+      }
+      window.addEventListener("keyup", search);
+      return () => window.removeEventListener("keyup", search);
+   });
+
    function updateQuery(e) {
       setQuery(e.target.value);
    }
@@ -68,7 +76,29 @@ function RootFiller() {
       setProf(e.target.value);
    }
 
-   function sendRequest(e) {}
+   function sendRequest(e) {
+      e?.preventDefault();
+      fetch("api/materials", {
+         method: "POST",
+         headers: {
+            "Content-Type": "Application/json",
+         },
+         body: JSON.stringify({
+            query,
+            course,
+            prof,
+         }),
+      })
+         .then((res) => res.json())
+         .then((data) => {
+            console.log(data)
+            setSearchParams({
+               query,
+               course,
+               prof,
+            });
+         });
+   }
 
    return (
       <Box
@@ -83,7 +113,7 @@ function RootFiller() {
             height: "65vh", // paddingTop is 25vh
             paddingTop: "35vh",
             fontFamily: "Raleway",
-            fontSize: { xs: 48, sm: 64},
+            fontSize: { xs: 48, sm: 64 },
             color: "white",
             display: "flex",
             flexDirection: "column",
@@ -114,6 +144,15 @@ function RootFiller() {
             placeholder="I'm looking for ..."
             autoFocus
             autoComplete="off"
+            value={query}
+            helperText="Hit enter to search *"
+            FormHelperTextProps={{
+               sx: {
+                  color: "#fff",
+                  fontSize: "10px",
+                  fontFamily: "Raleway",
+               },
+            }}
             component={motion.div}
             initial={{ y: "-50vh" }}
             animate={{
@@ -134,13 +173,15 @@ function RootFiller() {
                   background: "#fff",
                   fontSize: 16,
                },
-               "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#ee6c4d",
-               },
+               "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                  {
+                     borderColor: "#ee6c4d",
+                  },
                "& .MuiInputBase-input": {
                   paddingY: 1.5,
                },
             }}
+            onChange={updateQuery}
          ></TextField>
          <Button
             variant="contained"
@@ -181,13 +222,16 @@ function RootFiller() {
                   borderRadius: "16px",
                   background: "#fff",
                }}
+               onSubmit={sendRequest}
             >
-               <Typography sx={{
-                  fontFamily: "Pacifico",
-                  fontSize: "40px",
-                  color: "#00171f",
-                  alignSelf: "center",
-               }}>
+               <Typography
+                  sx={{
+                     fontFamily: "Pacifico",
+                     fontSize: "40px",
+                     color: "#00171f",
+                     alignSelf: "center",
+                  }}
+               >
                   Filters
                </Typography>
                <TextField
@@ -197,6 +241,7 @@ function RootFiller() {
                   placeholder="I'm looking for ..."
                   autoFocus
                   autoComplete="off"
+                  value={query}
                   className={classes.root}
                   onChange={updateQuery}
                ></TextField>
@@ -224,13 +269,15 @@ function RootFiller() {
                </TextField>
                <Button
                   variant="contained"
+                  type="input"
                   disableElevation
-                  size="large"
+                  size="mediusm"
                   sx={{
                      background: "transparent",
                      color: "#00171f",
                      border: "1px solid #00171f",
-                     fontFamily: "Poppins",
+                     fontFamily: "Pacifico",
+                     fontSize: "16px",
                      textTransform: "none",
                      "&:hover": {
                         background: "#00171f",
@@ -239,7 +286,6 @@ function RootFiller() {
                      },
                      alignSelf: "center",
                   }}
-                  onSubmit={sendRequest}
                >
                   Search
                </Button>
