@@ -1,7 +1,18 @@
-import { Box, Stack } from "@mui/material";
-import { Link } from "react-router-dom";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { motion } from "framer-motion";
+import { Box, Stack, TextField, InputAdornment } from "@mui/material";
+import { Link, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 function Navbar() {
+   const [query, setQuery] = useState("");
+   const { pathname } = useLocation();
+
+   function updateQuery(e) {
+      setQuery(e.target.value);
+   }
+
    return (
       <Stack
          direction="row"
@@ -23,6 +34,50 @@ function Navbar() {
          >
             nitthub
          </Link>
+         {pathname === "/search-library" && (
+            <TextField
+               variant="outlined"
+               id="searchQuery"
+               name="searchQuery"
+               placeholder="I'm looking for ..."
+               autoFocus
+               autoComplete="off"
+               value={query}
+               FormHelperTextProps={{
+                  sx: {
+                     color: "#fff",
+                     fontSize: "10px",
+                     fontFamily: "Raleway",
+                  },
+               }}
+               component={motion.div}
+               initial={{ y: "50vh", scale: 1.5 }}
+               animate={{ y: 0, scale: 1 }}
+               InputProps={{
+                  startAdornment: (
+                     <InputAdornment position="start">
+                        <FontAwesomeIcon icon={faSearch} />
+                     </InputAdornment>
+                  ),
+               }}
+               sx={{
+                  display: "flex",
+                  width: "50%",
+                  "& .MuiOutlinedInput-root": {
+                     background: "#fff",
+                     fontSize: 16,
+                  },
+                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                     {
+                        borderColor: "#ee6c4d",
+                     },
+                  "& .MuiInputBase-input": {
+                     paddingY: 1.5,
+                  },
+               }}
+               onChange={updateQuery}
+            ></TextField>
+         )}
          <Stack
             direction="row"
             ml={4.5}

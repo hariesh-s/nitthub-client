@@ -2,6 +2,7 @@ import { Grid } from "@mui/material";
 import BookCard from "./BookCard";
 
 function BookGrid({ supplies }) {
+   const arr = [1, 2, 3, 4, 5, 6, 7]
    return (
       <Grid
          container
@@ -10,8 +11,9 @@ function BookGrid({ supplies }) {
          rowSpacing={6}
          px={{ xs: 2, sm: 4 }}
          py={4}
+         bgcolor="#00171f"
       >
-         {supplies?.map((supply) => (
+         {arr?.map((supply) => (
             <Grid
                item
                xs={12}

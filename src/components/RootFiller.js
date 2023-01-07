@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import Typewriter from "typewriter-effect";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
    Box,
    Button,
@@ -52,7 +52,8 @@ function RootFiller() {
    const [query, setQuery] = useState("");
    const [course, setCourse] = useState("");
    const [prof, setProf] = useState("");
-   const [, setSearchParams] = useSearchParams();
+   // const [, setSearchParams] = useSearchParams();
+   const navigate = useNavigate();
    const classes = useStyles();
 
    useEffect(() => {
@@ -89,15 +90,13 @@ function RootFiller() {
             prof,
          }),
       })
-         .then((res) => res.json())
-         .then((data) => {
-            console.log(data)
-            setSearchParams({
-               query,
-               course,
-               prof,
-            });
-         });
+         .then((res) => {
+            navigate("/search-library")
+         })
+         // .then((data) => {
+         //    console.log(data)
+            
+         // });
    }
 
    return (
