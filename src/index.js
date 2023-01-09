@@ -3,6 +3,7 @@ import React, { StrictMode } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "react-query";
 import AuthContextProvider from "./contexts/AuthContext";
+import SearchParamContextProvider from "./contexts/SearchParamContext";
 import Root from "./pages/Root";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -20,20 +21,22 @@ render(
       <QueryClientProvider client={queryClient}>
          <BrowserRouter>
             <AuthContextProvider>
-               <Routes>
-                  <Route path="/" element={<Root />}></Route>
-                  <Route path="/login" element={<Login />}></Route>
-                  <Route path="/register" element={<Register />}></Route>
-                  <Route
-                     path="/search-library"
-                     element={<SearchLibrary />}
-                  ></Route>
-                  <Route path="/user" element={<ProtectedRoutes />}>
-                     <Route index element={<div></div>}></Route>
-                     <Route path="uploads" element={<Uploads />}></Route>
-                     <Route path="downloads" element={<Downloads />}></Route>
-                  </Route>
-               </Routes>
+               <SearchParamContextProvider>
+                  <Routes>
+                     <Route path="/" element={<Root />}></Route>
+                     <Route path="/login" element={<Login />}></Route>
+                     <Route path="/register" element={<Register />}></Route>
+                     <Route
+                        path="/search-library"
+                        element={<SearchLibrary />}
+                     ></Route>
+                     <Route path="/user" element={<ProtectedRoutes />}>
+                        <Route index element={<div></div>}></Route>
+                        <Route path="uploads" element={<Uploads />}></Route>
+                        <Route path="downloads" element={<Downloads />}></Route>
+                     </Route>
+                  </Routes>
+               </SearchParamContextProvider>
             </AuthContextProvider>
          </BrowserRouter>
       </QueryClientProvider>
