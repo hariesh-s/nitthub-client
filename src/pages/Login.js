@@ -53,7 +53,7 @@ function Login() {
             payload: response.data?.access_token,
          });
 
-         navigate("/user/uploads")
+         navigate("/")
       } catch (error) {
          if (error.response) {
             console.log(error.response.data);
