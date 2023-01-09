@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { authApi } from "../api/axios";
+import { useNavigate } from "react-router-dom";
 import { Box, Grid, TextField, Button, Typography } from "@mui/material";
 
 function Register() {
@@ -13,6 +15,8 @@ function Register() {
    const [usernameErr, setUsernameErr] = useState(false);
    const [passwordErr, setPasswordErr] = useState(false);
    const [confirmationErr, setConfirmationErr] = useState(false);
+
+   const navigate = useNavigate();
 
    function handleUsernameChange(e) {
       setUsername(e.target.value);
@@ -67,6 +71,28 @@ function Register() {
       }
    }
 
+   async function register() {
+      try {
+         const response = await authApi.post("/api/register", {
+            username,
+            password,
+         });
+
+         navigate("/login")
+      } catch (error) {
+         if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+         } else if (error.request) {
+            console.log(error.request);
+         } else {
+            console.log("Error", error.message);
+         }
+         console.log(error.config);
+      }
+   }
+
    function handleRegistration(e) {
       e.preventDefault()
 
@@ -83,18 +109,7 @@ function Register() {
          setConfirmationHelperText("Confirm password cannot be empty!")
       }
       else {
-         fetch("api/register", {
-            method: "POST",
-            headers: {
-               "Content-Type": "Application/json"
-            },
-            body: JSON.stringify({
-               username,
-               password
-            })
-         })
-         .then(res => res.json)
-         .then(data => console.log(data))
+         register();
       }
    }
 

@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import SearchLibrary from "./pages/SearchLibrary";
 import Uploads from "./pages/Uploads";
 import Downloads from "./pages/Downloads";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 import "./index.css";
 
 const queryClient = new QueryClient();
@@ -27,7 +28,7 @@ render(
                      path="/search-library"
                      element={<SearchLibrary />}
                   ></Route>
-                  <Route path="/user">
+                  <Route path="/user" element={<ProtectedRoutes />}>
                      <Route index element={<div></div>}></Route>
                      <Route path="uploads" element={<Uploads />}></Route>
                      <Route path="downloads" element={<Downloads />}></Route>

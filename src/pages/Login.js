@@ -1,13 +1,21 @@
 import { useState } from "react";
+import { authApi } from "../api/axios";
+import { useNavigate } from "react-router-dom";
 import { Box, Grid, TextField, Button, Typography } from "@mui/material";
+import useAuthContext from "../hooks/useAuthContext";
 
 function Login() {
    const [username, setUsername] = useState("");
    const [password, setPassword] = useState("");
+
    const [usernameHelperText, setUsernameHelperText] = useState("");
    const [passwordHelperText, setPasswordHelperText] = useState("");
+
    const [usernameErr, setUsernameErr] = useState(false);
    const [passwordErr, setPasswordErr] = useState(false);
+
+   const { dispatchAuth } = useAuthContext();
+   const navigate = useNavigate();
 
    function handleUsernameChange(e) {
       setUsername(e.target.value);
@@ -33,32 +41,45 @@ function Login() {
       }
    }
 
+   async function authenticate() {
+      try {
+         const response = await authApi.post("/api/authenticate", {
+            username,
+            password,
+         });
+
+         dispatchAuth({
+            type: "LOGIN",
+            payload: response.data?.access_token,
+         });
+
+         navigate("/user/uploads")
+      } catch (error) {
+         if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+         } else if (error.request) {
+            console.log(error.request);
+         } else {
+            console.log("Error", error.message);
+         }
+         console.log(error.config);
+      }
+   }
+
    function handleLogin(e) {
-      e.preventDefault()
-      
-      if(!username){
+      e.preventDefault();
+
+      if (!username) {
          setUsernameErr(true);
          setUsernameHelperText("Username cannot be empty!");
-      }
-      else if(!password){
+      } else if (!password) {
          setPasswordErr(true);
          setPasswordHelperText("Password cannot be empty!");
+      } else {
+         authenticate();
       }
-      else {
-         fetch("api/authenticate", {
-            method: "POST",
-            headers: {
-               "Content-Type": "Application/json"
-            },
-            body: JSON.stringify({
-               username,
-               password
-            })
-         })
-         .then(res => res.json)
-         .then(data => console.log(data))
-      }
-
    }
 
    return (
@@ -158,6 +179,6 @@ function Login() {
          </Grid>
       </Box>
    );
-};
+}
 
 export default Login;
