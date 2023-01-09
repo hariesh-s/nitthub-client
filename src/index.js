@@ -32,6 +32,10 @@ render(
                      ></Route>
                      <Route path="/user" element={<ProtectedRoutes />}>
                         <Route index element={<div></div>}></Route>
+                        <Route
+                           path="search-library"
+                           element={<SearchLibrary />}
+                        ></Route>
                         <Route path="uploads" element={<Uploads />}></Route>
                         <Route path="downloads" element={<Downloads />}></Route>
                      </Route>
