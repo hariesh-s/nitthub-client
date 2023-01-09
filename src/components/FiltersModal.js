@@ -6,10 +6,11 @@ import {
    MenuItem,
    TextField,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import useSearchParamContext from "../hooks/useSearchParamContext";
 import { makeStyles } from "@mui/styles";
+
 const useStyles = makeStyles({
    root: {
       "& .MuiOutlinedInput-input": {
@@ -46,49 +47,26 @@ function FiltersModal({ isFiltersOpen, setFiltersOpen }) {
    const [query, setQuery] = useState("");
    const [course, setCourse] = useState("");
    const [prof, setProf] = useState("");
+
    const navigate = useNavigate();
-   const classes = useStyles();
    const { pathname } = useLocation();
 
-   // useEffect(() => {
-   //    window.removeEventListener("keyup", disableEnterKey);
-   //    return () => {
-   //       window.addEventListener("keyup", disableEnterKey);
-   //    };
-   // });
+   const classes = useStyles();
 
-   function updateQuery(e) {
-      setQuery(e.target.value);
-   }
+   const { dispatchSearchParam } = useSearchParamContext();
 
-   function updateCourse(e) {
-      setCourse(e.target.value);
-   }
+   function search(e) {
+      e?.preventDefault();
+      // if user submits form
+      if (e?.target.id === "filterSearchQuery") {
+         dispatchSearchParam({
+            type: "SEARCH",
+            payload: { query, course, prof },
+         });
 
-   function updateProf(e) {
-      setProf(e.target.value);
-   }
-
-   function sendRequest(e) {
-      e.preventDefault();
-      fetch("api/materials", {
-         method: "POST",
-         headers: {
-            "Content-Type": "Application/json",
-         },
-         body: JSON.stringify({
-            query,
-            course,
-            prof,
-         }),
-      }).then((res) => {
          if (pathname === "/") navigate("/search-library");
          else if (pathname === "/search-library") setFiltersOpen(false);
-      });
-      // .then((data) => {
-      //    console.log(data)
-
-      // });
+      }
    }
 
    return (
@@ -108,7 +86,8 @@ function FiltersModal({ isFiltersOpen, setFiltersOpen }) {
                borderRadius: "16px",
                background: "#fff",
             }}
-            onSubmit={sendRequest}
+            onSubmit={search}
+            id="filterSearchQuery"
          >
             <Typography
                sx={{
@@ -122,14 +101,13 @@ function FiltersModal({ isFiltersOpen, setFiltersOpen }) {
             </Typography>
             <TextField
                variant="outlined"
-               id="filterSearchQuery"
                name="filterSearchQuery"
                placeholder="I'm looking for ..."
                autoFocus
                autoComplete="off"
                value={query}
                className={classes.root}
-               onChange={updateQuery}
+               onChange={(e) => setQuery(e.target.value)}
             ></TextField>
             <TextField
                id="select"
@@ -137,7 +115,7 @@ function FiltersModal({ isFiltersOpen, setFiltersOpen }) {
                value={course}
                className={classes.root}
                select
-               onChange={updateCourse}
+               onChange={(e) => setCourse(e.target.value)}
             >
                <MenuItem value="10">Ten</MenuItem>
                <MenuItem value="20">Twenty</MenuItem>
@@ -148,7 +126,7 @@ function FiltersModal({ isFiltersOpen, setFiltersOpen }) {
                value={prof}
                className={classes.root}
                select
-               onChange={updateProf}
+               onChange={(e) => setProf(e.target.value)}
             >
                <MenuItem value="10">Ten</MenuItem>
                <MenuItem value="20">Twenty</MenuItem>
