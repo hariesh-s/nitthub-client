@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { authApi } from "../api/axios";
+import { api } from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import { Box, Grid, TextField, Button, Typography } from "@mui/material";
 
@@ -73,7 +73,7 @@ function Register() {
 
    async function register() {
       try {
-         const response = await authApi.post("/api/register", {
+         const response = await api.post("/api/register", {
             username,
             password,
          });

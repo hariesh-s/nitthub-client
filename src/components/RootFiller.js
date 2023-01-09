@@ -1,53 +1,37 @@
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import Typewriter from "typewriter-effect";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextField, InputAdornment } from "@mui/material";
 import FiltersModal from "./FiltersModal";
+import useSearchParamContext from "../hooks/useSearchParamContext";
 
 function RootFiller() {
    const [isFiltersOpen, setFiltersOpen] = useState(false);
    const [query, setQuery] = useState("");
+
+   const { dispatchSearchParam } = useSearchParamContext();
    const navigate = useNavigate();
 
    useEffect(() => {
       function search(e) {
          // if user hit enter while focussed on search bar in root filler component
          // query cannot be empty to prevent unnecessary reqs
-         if (e.keyCode === 13 && e.target.id === "rootSearchQuery" && query)
-            sendRequest();
+         if (e.keyCode === 13 && e.target.id === "rootSearchQuery" && query) {
+            dispatchSearchParam({
+               type: "SIMPLE_SEARCH",
+               payload: { query, course: "", prof: "" },
+            });
+            navigate("/search-library");
+         }
       }
+
       window.addEventListener("keyup", search);
+
       return () => window.removeEventListener("keyup", search);
-   });
-
-   function updateQuery(e) {
-      setQuery(e.target.value);
-   }
-
-   function sendRequest(e) {
-      e?.preventDefault();
-      fetch("api/materials", {
-         method: "POST",
-         headers: {
-            "Content-Type": "Application/json",
-         },
-         body: JSON.stringify({
-            query,
-            course: "",
-            prof: "",
-         }),
-      }).then((res) => {
-         setFiltersOpen(false);
-         navigate("/search-library");
-      });
-      // .then((data) => {
-      //    console.log(data)
-
-      // });
-   }
+   }, [query, dispatchSearchParam, navigate]);
 
    return (
       <Box
@@ -130,7 +114,7 @@ function RootFiller() {
                   paddingY: 1.5,
                },
             }}
-            onChange={updateQuery}
+            onChange={(e) => setQuery(e.target.value)}
          ></TextField>
          <Button
             variant="contained"

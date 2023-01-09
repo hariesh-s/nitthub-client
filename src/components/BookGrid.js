@@ -1,21 +1,36 @@
+import { api } from "../api/axios";
 import { Grid } from "@mui/material";
+import { useState, useEffect } from "react";
 import BookCard from "./BookCard";
+import useSearchParamContext from "../hooks/useSearchParamContext";
 
-function BookGrid({ supplies }) {
-   const arr = [
-      {
-         owner: "hariesh",
-         name: "name11",
-         course: "course1",
-         prof: "prof1",
-      },
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-   ];
+function BookGrid() {
+   const [studyMaterials, setStudyMaterials] = useState([]);
+   const { searchParam } = useSearchParamContext();
+
+   useEffect(() => {
+      async function getStudyMaterials() {
+         try {
+            const response = await api.post("/api/study-materials", searchParam);
+            console.log(response.data)
+            setStudyMaterials(response.data.result)
+         } catch (error) {
+            if (error.response) {
+               console.log(error.response.data);
+               console.log(error.response.status);
+               console.log(error.response.headers);
+            } else if (error.request) {
+               console.log(error.request);
+            } else {
+               console.log("Error", error.message);
+            }
+            console.log(error.config);
+         }
+      }
+
+      getStudyMaterials();
+   }, [searchParam])
+
    return (
       <Grid
          container
@@ -26,7 +41,7 @@ function BookGrid({ supplies }) {
          py={4}
          bgcolor="#00171f"
       >
-         {arr?.map((supply) => (
+         {studyMaterials?.map((studyMaterial) => (
             <Grid
                item
                xs={12}
@@ -39,10 +54,10 @@ function BookGrid({ supplies }) {
                }}
             >
                <BookCard
-                  authorName={supply?.owner}
-                  resourceName={supply?.name}
-                  course={supply?.course}
-                  prof={supply?.prof}
+                  authorName={studyMaterial?.owner}
+                  resourceName={studyMaterial?.name}
+                  course={studyMaterial?.course}
+                  prof={studyMaterial?.prof}
                />
             </Grid>
          ))}

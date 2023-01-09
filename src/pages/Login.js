@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { authApi } from "../api/axios";
+import { api } from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import { Box, Grid, TextField, Button, Typography } from "@mui/material";
 import useAuthContext from "../hooks/useAuthContext";
@@ -43,7 +43,7 @@ function Login() {
 
    async function authenticate() {
       try {
-         const response = await authApi.post("/api/authenticate", {
+         const response = await api.post("/api/authenticate", {
             username,
             password,
          });
