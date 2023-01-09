@@ -14,11 +14,11 @@ function NavbarSearch() {
 
    useEffect(() => {
       function search(e) {
-         // if user hit enter while focussed on search bar in root filler component
+         // if user hit enter while focussed on search bar in nav search component
          // query cannot be empty to prevent unnecessary reqs
          if (e.keyCode === 13 && e.target.id === "navSearchQuery" && query) {
             dispatchSearchParam({
-               type: "SIMPLE_SEARCH",
+               type: "SEARCH",
                payload: { query, course: "", prof: "" },
             });
          }

@@ -21,7 +21,7 @@ function RootFiller() {
          // query cannot be empty to prevent unnecessary reqs
          if (e.keyCode === 13 && e.target.id === "rootSearchQuery" && query) {
             dispatchSearchParam({
-               type: "SIMPLE_SEARCH",
+               type: "SEARCH",
                payload: { query, course: "", prof: "" },
             });
             navigate("/search-library");
