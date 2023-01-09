@@ -1,9 +1,9 @@
 function authReducer(state, action) {
    switch (action.type) {
       case "LOGIN":
-         return { ...state, status: true }; // replace status in state to true
+         return { ...state, accessToken: action.payload }; // update accessToken
       case "LOGOUT":
-         return { ...state, status: false }; // replace status in state to false
+         return { ...state, accessToken: "" }; // reset accessToken to empty
       default:
          throw Error("Unknown action " + action.type);
    }
