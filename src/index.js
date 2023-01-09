@@ -2,7 +2,7 @@ import { render } from "react-dom";
 import React, { StrictMode } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "react-query";
-import AuthContextProvider from "./contexts/authContext";
+import AuthContextProvider from "./contexts/AuthContext";
 import Root from "./pages/Root";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -18,8 +18,8 @@ render(
    <StrictMode>
       <QueryClientProvider client={queryClient}>
          <BrowserRouter>
-            <Routes>
-               <AuthContextProvider>
+            <AuthContextProvider>
+               <Routes>
                   <Route path="/" element={<Root />}></Route>
                   <Route path="/login" element={<Login />}></Route>
                   <Route path="/register" element={<Register />}></Route>
@@ -32,8 +32,8 @@ render(
                      <Route path="uploads" element={<Uploads />}></Route>
                      <Route path="downloads" element={<Downloads />}></Route>
                   </Route>
-               </AuthContextProvider>
-            </Routes>
+               </Routes>
+            </AuthContextProvider>
          </BrowserRouter>
       </QueryClientProvider>
    </StrictMode>,
