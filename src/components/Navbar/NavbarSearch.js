@@ -1,10 +1,11 @@
-import { faFilter, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
-import { TextField, InputAdornment } from "@mui/material";
 import { useState, useEffect } from "react";
-import FiltersModal from "./FiltersModal";
-import useSearchParamContext from "../hooks/useSearchParamContext";
+import { TextField, InputAdornment } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter, faSearch } from "@fortawesome/free-solid-svg-icons";
+
+import FiltersModal from "../FiltersModal";
+import useSearchParamContext from "../../hooks/useSearchParamContext";
 
 function NavbarSearch() {
    const [query, setQuery] = useState("");
