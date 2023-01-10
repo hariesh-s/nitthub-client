@@ -53,6 +53,7 @@ function Login() {
             payload: response.data?.access_token,
          });
 
+
          navigate("/")
       } catch (error) {
          if (error.response) {

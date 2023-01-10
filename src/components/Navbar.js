@@ -1,46 +1,35 @@
 import { Box, Stack } from "@mui/material";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { api } from "../api/axios";
+import useAuthContext from "../hooks/useAuthContext";
 import useJWT from "../hooks/useJWT";
+import useLoginStatus from "../hooks/useLoginStatus";
 import NavbarSearch from "./NavbarSearch";
 
 function Navbar() {
    const { pathname } = useLocation();
+   const isLoggedIn = useLoginStatus();
+   const { dispatchAuth } = useAuthContext();
 
-   const [loginStatus, setLoginStatus] = useState(false);
-
-   const authApi = useJWT();
-
-   useEffect(() => {
-      async function isLoggedIn() {
-         try {
-            const response = await authApi.get("/api/authenticate");
-            console.log(response)
-            if (response?.status === 200) {
-               console.log("in")
-               setLoginStatus(true);
-            }
-            console.log("out")
-         } catch (error) {
-            if (error?.response) {
-               // The request was made and the server responded with a status code
-               // that falls out of the range of 2xx
-               console.log("res ", error.response)
-               setLoginStatus(false);
-            } else if (error.request) {
-               // The request was made but no response was received
-               // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-               // http.ClientRequest in node.js
-               console.log("req ", error.request);
-             } else {
-               // Something happened in setting up the request that triggered an Error
-               console.log('Error', error.message);
-             }
-            console.log(error?.config);
+   async function logout() {
+      try {
+         const response = await api.delete("/api/authenticate");
+         console.log(response);
+         dispatchAuth({ type: "LOGOUT" });
+      } catch (error) {
+         if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+         } else if (error.request) {
+            console.log(error.request);
+         } else {
+            console.log("Error", error.message);
          }
+         console.log(error.config);
       }
-      isLoggedIn();
-   }, [authApi]);
+   }
 
    return (
       <Stack
@@ -66,7 +55,7 @@ function Navbar() {
 
          {pathname !== "/" && <NavbarSearch />}
 
-         {loginStatus && (
+         {isLoggedIn && (
             <Stack
                direction="row"
                ml={4.5}
@@ -78,8 +67,24 @@ function Navbar() {
                }}
             >
                <Link
-                  to="/logout"
+                  to="/user/uploads"
                   style={{ textDecoration: "none", color: "#fff" }}
+               >
+                  <Box
+                     sx={{
+                        "&:hover": {
+                           color: "#ee6c4d",
+                        },
+                     }}
+                  >
+                     PROFILE
+                  </Box>
+               </Link>
+
+               <Link
+                  to="/"
+                  style={{ textDecoration: "none", color: "#fff" }}
+                  onClick={logout}
                >
                   <Box
                      sx={{
@@ -94,7 +99,7 @@ function Navbar() {
             </Stack>
          )}
 
-         {!loginStatus && (
+         {!isLoggedIn && (
             <Stack
                direction="row"
                ml={4.5}
@@ -136,7 +141,6 @@ function Navbar() {
                </Link>
             </Stack>
          )}
-
       </Stack>
    );
 }
