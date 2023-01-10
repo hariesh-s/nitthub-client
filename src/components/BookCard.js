@@ -82,13 +82,13 @@ function BookCard({ initials, authorName, date, resourceName, course, prof }) {
                sx={{
                   textTransform: "none",
                   background: "transparent",
-                  color: "#ee6c4d",
-                  border: "1px solid #ee6c4d",
+                  color: "#00171f",
+                  border: "1px solid #00171f",
                   fontFamily: "Pacifico",
                   fontSize: "14px",
                   marginBottom: "12px",
                   "&:hover": {
-                     background: "#ee6c4d",
+                     background: "#00171f",
                      color: "#fff",
                      border: "none",
                   },

@@ -1,22 +1,37 @@
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Menu, MenuItem, Button } from "@mui/material";
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { api } from "../api/axios";
 import useAuthContext from "../hooks/useAuthContext";
 import useJWT from "../hooks/useJWT";
 import useLoginStatus from "../hooks/useLoginStatus";
 import NavbarSearch from "./NavbarSearch";
+import jwtDecode from "jwt-decode";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUpload, faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import UploadDownloadBar from "./UploadDownloadBar";
 
 function Navbar() {
    const { pathname } = useLocation();
+   const navigate = useNavigate();
    const isLoggedIn = useLoginStatus();
-   const { dispatchAuth } = useAuthContext();
+   const { auth, dispatchAuth } = useAuthContext();
+   const [anchorEl, setAnchorEl] = useState(null);
+   const open = Boolean(anchorEl);
+   const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+   };
+   const handleClose = () => {
+      setAnchorEl(null);
+   };
 
    async function logout() {
+      setAnchorEl(null);
       try {
          const response = await api.delete("/api/authenticate");
          console.log(response);
          dispatchAuth({ type: "LOGOUT" });
+         navigate("/");
       } catch (error) {
          if (error.response) {
             console.log(error.response.data);
@@ -36,8 +51,8 @@ function Navbar() {
          direction="row"
          alignItems="center"
          justifyContent="space-between"
-         height={96}
          bgcolor="#00171f"
+         pt={2}
       >
          <Link
             to="/"
@@ -53,7 +68,13 @@ function Navbar() {
             nitthub
          </Link>
 
-         {pathname !== "/" && <NavbarSearch />}
+         {pathname !== "/" &&
+            pathname !== "/user/uploads" &&
+            pathname !== "/user/downloads" && <NavbarSearch />}
+
+         {
+            (pathname === "/user/uploads" ||
+            pathname === "/user/downloads") && <UploadDownloadBar />}
 
          {isLoggedIn && (
             <Stack
@@ -66,36 +87,122 @@ function Navbar() {
                   fontSize: 16,
                }}
             >
-               <Link
-                  to="/user/uploads"
-                  style={{ textDecoration: "none", color: "#fff" }}
-               >
-                  <Box
+               {(pathname === "/user/uploads" ||
+                  pathname === "/user/downloads") && (
+                  <Button
+                     variant="contained"
+                     endIcon={
+                        <FontAwesomeIcon icon={faUpload} transform="shrink-3" />
+                     }
+                     disableElevation
+                     size="medium"
                      sx={{
+                        background: "transparent",
+                        color: "#ee6c4d",
+                        border: "1px solid #ee6c4d",
+                        fontFamily: "Pacifico",
+                        fontSize: "20px",
+                        textTransform: "none",
                         "&:hover": {
-                           color: "#ee6c4d",
+                           background: "#ee6c4d",
+                           color: "#fff",
+                           border: "none",
                         },
+                        alignSelf: "center",
                      }}
                   >
-                     PROFILE
-                  </Box>
-               </Link>
-
-               <Link
-                  to="/"
-                  style={{ textDecoration: "none", color: "#fff" }}
-                  onClick={logout}
+                     Upload files
+                  </Button>
+               )}
+               <Button
+                  id="basic-button"
+                  variant="contained"
+                  endIcon={
+                     <FontAwesomeIcon icon={faCaretDown} transform="shrink-3" />
+                  }
+                  disableElevation
+                  size="medium"
+                  sx={{
+                     background: "transparent",
+                     color: "#ee6c4d",
+                     border: "1px solid #ee6c4d",
+                     fontFamily: "Pacifico",
+                     fontSize: "20px",
+                     textTransform: "none",
+                     "&:hover": {
+                        background: "#ee6c4d",
+                        color: "#fff",
+                        border: "none",
+                     },
+                     alignSelf: "center",
+                  }}
+                  onClick={handleClick}
                >
-                  <Box
-                     sx={{
-                        "&:hover": {
-                           color: "#ee6c4d",
-                        },
+                  {jwtDecode(auth.accessToken).username}
+               </Button>
+               <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  sx={{
+                     fontFamily: "Pacifico",
+                     fontSize: "16px",
+                     marginTop: "8px",
+                     textDecoration: "none",
+                     "& .MuiButtonBase-root": {
+                        background: "#fff",
+                        color: "#00171f",
+                        paddingX: "16px",
+                        paddingY: "12px",
+                     },
+                     "& .MuiButtonBase-root:hover": {
+                        // background: "#00171f",
+                        background: "#ee6c4d",
+                        color: "#fff",
+                     },
+                     "& .MuiList-root": {
+                        padding: "0px",
+                        borderRadius: "0px",
+                     },
+                  }}
+               >
+                  <MenuItem onClick={handleClose}>
+                     <Link
+                        to="/user/uploads"
+                        style={{
+                           textDecoration: "none",
+                           color: "inherit",
+                           fontFamily: "Pacifico",
+                           fontSize: "16px",
+                        }}
+                     >
+                        Profile
+                     </Link>
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                     <Link
+                        to="/search-library"
+                        style={{
+                           textDecoration: "none",
+                           color: "inherit",
+                           fontFamily: "Pacifico",
+                           fontSize: "16px",
+                        }}
+                     >
+                        Search library
+                     </Link>
+                  </MenuItem>
+                  <MenuItem
+                     onClick={logout}
+                     style={{
+                        fontFamily: "Pacifico",
+                        fontSize: "16px",
                      }}
                   >
-                     LOGOUT
-                  </Box>
-               </Link>
+                     Logout
+                  </MenuItem>
+               </Menu>
             </Stack>
          )}
 

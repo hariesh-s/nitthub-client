@@ -6,7 +6,6 @@ function Download() {
    return (
       <>
          <Navbar />
-         <UploadDownloadBar />
          <BookGrid />
       </>
    );

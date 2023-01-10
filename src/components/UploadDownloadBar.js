@@ -25,7 +25,7 @@ function UploadDownloadBar() {
          sx={{
             background: "#00171f",
             fontFamily: "Pacifico",
-            fontSize: "20px",
+            fontSize: "24px",
             paddingY: "8px",
          }}
       >
@@ -68,31 +68,6 @@ function UploadDownloadBar() {
                   Downloads
                </NavLink>
             </Box>
-            {/* <Button
-               variant="contained"
-               endIcon={
-                  <FontAwesomeIcon icon={faUpload} transform="shrink-3" />
-               }
-               disableElevation
-               size="medium"
-               sx={{
-                  background: "transparent",
-                  marginX: "36px",
-                  color: "#ee6c4d",
-                  border: "1px solid #ee6c4d",
-                  fontFamily: "Pacifico",
-                  fontSize: "16px",
-                  textTransform: "none",
-                  "&:hover": {
-                     background: "#ee6c4d",
-                     color: "#fff",
-                     border: "none",
-                  },
-                  alignSelf: "center",
-               }}
-            >
-               Upload files
-            </Button> */}
          </Box>
       </Box>
    );
