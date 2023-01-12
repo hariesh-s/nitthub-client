@@ -58,6 +58,8 @@ function BookGrid() {
                   resourceName={studyMaterial?.name}
                   course={studyMaterial?.course}
                   prof={studyMaterial?.prof}
+                  id={studyMaterial?._id}
+                  mime={studyMaterial?.mimeType}
                />
             </Grid>
          ))}

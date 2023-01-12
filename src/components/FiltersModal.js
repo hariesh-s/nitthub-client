@@ -135,7 +135,7 @@ function FiltersModal({ isFiltersOpen, setFiltersOpen }) {
                variant="contained"
                type="input"
                disableElevation
-               size="mediusm"
+               size="medium"
                sx={{
                   background: "transparent",
                   color: "#00171f",
