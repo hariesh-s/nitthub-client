@@ -8,8 +8,8 @@ function useJWT() {
    useEffect(() => {
       const requestIntercept = authApi.interceptors.request.use(
          (config) => {
-            if (!config.headers["Authorization"] && auth?.accessToken)
-               config.headers["Authorization"] = `Bearer ${auth.accessToken}`;
+            if (!config.headers["authorization"] && auth?.accessToken)
+               config.headers["authorization"] = `Bearer ${auth.accessToken}`;
 
             return config;
          },
@@ -25,26 +25,16 @@ function useJWT() {
 
                // refreshing the access token
                try {
-                  const res = await api.get("/api/refreshToken", {
-                     withCredentials: true,
-                  });
-                  const { accessToken } = dispatchAuth({
+                  const res = await api.get("/api/refresh-token");
+                  dispatchAuth({
                      type: "LOGIN",
                      payload: res.data.access_token,
                   });
-                  prevReq.headers["Authorization"] = `Bearer ${accessToken}`;
-                  return authApi(prevReq);
+                  prevReq.headers["authorization"] = `Bearer ${res.data.access_token}`;
+                  const retryReq = await authApi(prevReq);
+                  return retryReq;
                } catch (error) {
-                  if (error.response) {
-                     console.log(error.response.data);
-                     console.log(error.response.status);
-                     console.log(error.response.headers);
-                  } else if (error.request) {
-                     console.log(error.request);
-                  } else {
-                     console.log("Error", error.message);
-                  }
-                  console.log(error.config);
+                  console.error(error)
                }
             }
             return Promise.reject(error);
