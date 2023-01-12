@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { faUpload, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 import { api } from "../../api/axios";
+import UploadModal from "../UploadModal";
 import useAuthContext from "../../hooks/useAuthContext";
 
 function NavbarLoggedIn() {
@@ -14,6 +15,7 @@ function NavbarLoggedIn() {
 
    const { auth, dispatchAuth } = useAuthContext();
 
+   const [isUploadModalOpen, setUploadModalOpen] = useState(false);
    const [anchorElement, setAnchorElement] = useState(null);
    const open = Boolean(anchorElement);
 
@@ -53,31 +55,39 @@ function NavbarLoggedIn() {
          }}
       >
          {(pathname === "/user/uploads" || pathname === "/user/downloads") && (
-            <Button
-               variant="contained"
-               endIcon={
-                  <FontAwesomeIcon icon={faUpload} transform="shrink-3" />
-               }
-               disableElevation
-               size="medium"
-               sx={{
-                  background: "transparent",
-                  color: "#ee6c4d",
-                  border: "1px solid #ee6c4d",
-                  fontFamily: "Pacifico",
-                  fontSize: "20px",
-                  textTransform: "none",
-                  "&:hover": {
-                     background: "#ee6c4d",
-                     color: "#fff",
-                     border: "none",
-                  },
-                  alignSelf: "center",
-               }}
-            >
-               Upload files
-            </Button>
+            <>
+               <Button
+                  variant="contained"
+                  endIcon={
+                     <FontAwesomeIcon icon={faUpload} transform="shrink-3" />
+                  }
+                  disableElevation
+                  size="medium"
+                  sx={{
+                     background: "transparent",
+                     color: "#ee6c4d",
+                     border: "1px solid #ee6c4d",
+                     fontFamily: "Pacifico",
+                     fontSize: "20px",
+                     textTransform: "none",
+                     "&:hover": {
+                        background: "#ee6c4d",
+                        color: "#fff",
+                        border: "none",
+                     },
+                     alignSelf: "center",
+                  }}
+                  onClick={() => setUploadModalOpen(true)}
+               >
+                  Upload files
+               </Button>
+               <UploadModal
+                  isUploadModalOpen={isUploadModalOpen}
+                  setUploadModalOpen={setUploadModalOpen}
+               />
+            </>
          )}
+
          <Button
             variant="contained"
             endIcon={
