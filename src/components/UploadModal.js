@@ -85,10 +85,12 @@ function UploadModal({ isUploadModalOpen, setUploadModalOpen }) {
 
    async function submit() {
       const data = new FormData()
-      data.append("material", file, file.name);
+      // order important as in server
+      // "busboy" reads data in this order
       data.append("materialName", materialName);
       data.append("course", course);
       data.append("prof", prof);
+      data.append("material", file, file.name);
       try {
          const response = await authApi.post("/api/upload", data)
          console.log(response)

@@ -17,12 +17,34 @@ import {
    IconButton,
    Button,
 } from "@mui/material";
+import download from "downloadjs";
+import { useNavigate } from "react-router-dom";
+import useJWT from "../hooks/useJWT";
 
-function BookCard({ initials, authorName, date, resourceName, course, prof }) {
+function BookCard({ authorName, date, resourceName, course, prof, id, mime }) {
+   const authApi = useJWT();
+   const navigate = useNavigate()
+
+
+   async function downloadMaterial() {
+      try {
+         const response = await authApi.get("/api/download/" + id, {
+            responseType: "blob",
+         })
+         console.log(response)
+
+         // check how to trigger file download on ur own
+         // used a library for now
+         download(response.data, resourceName, mime)
+      } catch (error) {
+         console.error(error)   
+      }  
+   }
+
    return (
       <Card sx={{ width: 280, borderRadius: "12px", paddingX: "8px" }}>
          <CardHeader
-            avatar={<Avatar>{initials}</Avatar>}
+            avatar={<Avatar></Avatar>}
             title={[
                "Posted by ",
                <span style={{ color: "#ee6c4d" }}>{authorName}</span>,
@@ -93,6 +115,7 @@ function BookCard({ initials, authorName, date, resourceName, course, prof }) {
                      border: "none",
                   },
                }}
+               onClick={downloadMaterial}
             >
                Download
             </Button>
