@@ -7,12 +7,12 @@ import {
    TextField,
 } from "@mui/material";
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import useSearchParamContext from "../hooks/useSearchParamContext";
+// import { useNavigate, useLocation } from "react-router-dom";
+// import useSearchParamContext from "../hooks/useSearchParamContext";
 import { makeStyles } from "@mui/styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
-import { api } from "../api/axios";
+// import { api } from "../api/axios";
 import useJWT from "../hooks/useJWT";
 
 const useStyles = makeStyles({
@@ -52,30 +52,30 @@ function UploadModal({ isUploadModalOpen, setUploadModalOpen }) {
    const [course, setCourse] = useState("");
    const [prof, setProf] = useState("");
    const [file, setFile] = useState();
-   const [label, setLabel] = useState("Button");
+   const [label, setLabel] = useState("Upload file");
 
-   const navigate = useNavigate();
-   const { pathname } = useLocation();
+   // const navigate = useNavigate();
+   // const { pathname } = useLocation();
 
    const classes = useStyles();
 
-   const { dispatchSearchParam } = useSearchParamContext();
+   // const { dispatchSearchParam } = useSearchParamContext();
 
    const authApi = useJWT();
 
-   function search(e) {
-      e?.preventDefault();
-      // if user submits form
-      if (e?.target.id === "filterSearchmaterialName") {
-         dispatchSearchParam({
-            type: "SEARCH",
-            payload: { materialName, course, prof },
-         });
+   // function search(e) {
+   //    e?.preventDefault();
+   //    // if user submits form
+   //    if (e?.target.id === "filterSearchmaterialName") {
+   //       dispatchSearchParam({
+   //          type: "SEARCH",
+   //          payload: { materialName, course, prof },
+   //       });
 
-         if (pathname === "/") navigate("/search-library");
-         else if (pathname === "/search-library") setUploadModalOpen(false);
-      }
-   }
+   //       if (pathname === "/") navigate("/search-library");
+   //       else if (pathname === "/search-library") setUploadModalOpen(false);
+   //    }
+   // }
 
    function updateFile(e) {
       console.log(e.target.files[0]);
@@ -83,7 +83,8 @@ function UploadModal({ isUploadModalOpen, setUploadModalOpen }) {
       setLabel(e.target.files[0].name);
    }
 
-   async function submit() {
+   async function upload(e) {
+      e.preventDefault();
       const data = new FormData()
       // order important as in server
       // "busboy" reads data in this order
@@ -94,6 +95,7 @@ function UploadModal({ isUploadModalOpen, setUploadModalOpen }) {
       try {
          const response = await authApi.post("/api/upload", data)
          console.log(response)
+         setUploadModalOpen(false)
       } catch(error) {
          console.log(error)
       }
@@ -116,7 +118,7 @@ function UploadModal({ isUploadModalOpen, setUploadModalOpen }) {
                borderRadius: "16px",
                background: "#fff",
             }}
-            onSubmit={search}
+            onSubmit={upload}
             id="filterSearchmaterialName"
          >
             <Typography
@@ -214,7 +216,6 @@ function UploadModal({ isUploadModalOpen, setUploadModalOpen }) {
                      },
                      alignSelf: "center",
                   }}
-                  onClick={submit}
                >
                   Submit
                </Button>
