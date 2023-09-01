@@ -9,7 +9,7 @@ export default function SearchParamContextProvider({ children }) {
       course: "",
       prof: "",
    });
-   console.log(searchParam);
+   // console.log(searchParam);
    return (
       <SearchParamContext.Provider value={{ searchParam, dispatchSearchParam }}>
          {children}

@@ -111,7 +111,7 @@ function NavbarLoggedIn() {
             }}
             onClick={openOptions}
          >
-            {jwtDecode(auth.accessToken).username}
+            {auth.accessToken === "" ? "" : jwtDecode(auth.accessToken).username}
          </Button>
          <Menu
             anchorEl={anchorElement}

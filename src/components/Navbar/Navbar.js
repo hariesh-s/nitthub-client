@@ -7,9 +7,9 @@ import NavbarLoggedIn from "./NavbarLoggedIn";
 import UploadDownloadBar from "../UploadDownloadBar";
 import useLoginStatus from "../../hooks/useLoginStatus";
 
-function Navbar() {
+function Navbar({ isLoggedIn }) {
    const { pathname } = useLocation();
-   const isLoggedIn = useLoginStatus();
+   // const isLoggedIn = useLoginStatus();
 
    return (
       <Stack

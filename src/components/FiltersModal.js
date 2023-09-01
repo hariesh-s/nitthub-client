@@ -59,6 +59,9 @@ function FiltersModal({ isFiltersOpen, setFiltersOpen }) {
       e?.preventDefault();
       // if user submits form
       if (e?.target.id === "filterSearchQuery") {
+         // we only update the search context, the req
+         // for materials is made by the book grid
+         // component using the updated search context
          dispatchSearchParam({
             type: "SEARCH",
             payload: { query, course, prof },

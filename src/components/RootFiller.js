@@ -20,6 +20,9 @@ function RootFiller() {
          // if user hit enter while focussed on search bar in root filler component
          // query cannot be empty to prevent unnecessary reqs
          if (e.keyCode === 13 && e.target.id === "rootSearchQuery" && query) {
+            // we only update the search context, the req 
+            // for materials is made by the book grid 
+            // component using the updated search context
             dispatchSearchParam({
                type: "SEARCH",
                payload: { query, course: "", prof: "" },

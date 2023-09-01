@@ -78,7 +78,7 @@ function UploadModal({ isUploadModalOpen, setUploadModalOpen }) {
    // }
 
    function updateFile(e) {
-      console.log(e.target.files[0]);
+      // console.log(e.target.files[0]);
       setFile(e.target.files[0]);
       setLabel(e.target.files[0].name);
    }

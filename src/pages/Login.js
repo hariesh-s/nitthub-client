@@ -5,6 +5,8 @@ import { Box, Grid, TextField, Button, Typography } from "@mui/material";
 import useAuthContext from "../hooks/useAuthContext";
 
 function Login() {
+   console.log("at login")
+   
    const [username, setUsername] = useState("");
    const [password, setPassword] = useState("");
 
